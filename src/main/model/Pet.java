@@ -1,11 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
 
 // Represents a virtual pet
 // Pet has name, specie, and stats that change over time,
 // These stats include stamina, happiness, hunger, health
 // and a sick status
-public class Pet {
+public class Pet implements Writable{
     public static final int MAX_STAT = 100;
     public static final int MIN_STAT = 0;
     public static final int INITIAL_STAT = 50;
@@ -95,7 +98,7 @@ public class Pet {
 
     // MODIFIES: this
     // EFFECTS: decrease the health by amount
-    //           Stats always between [MIN_STAT, MAX_STAT]
+    //          Stats always between [MIN_STAT, MAX_STAT]
     public void decreaseHealth(int amount) {
         this.health = Math.max(this.health - amount, MIN_STAT);
 
@@ -106,5 +109,11 @@ public class Pet {
     public void eatPill() {
         this.health = MAX_STAT; 
 
+    }
+
+    // EFFECTS: returns this pet as a JSON object
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

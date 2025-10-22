@@ -3,8 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // Represents the Pet Cafe, where the owner adopts pets to live in the cafe
-public class Cafe {
+public class Cafe implements Writable{
     public static final int LOW_HEALTH_THRESHOLD = 20;
     private List<Pet> pets;
     private int adoptedCount; 
@@ -54,5 +58,11 @@ public class Cafe {
             }
         }
         return lowHealthPets;
+    }
+
+    // EFFECTS: returns this pet cafe as a JSON object
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }
