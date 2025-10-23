@@ -2,20 +2,33 @@ package ui;
 
 import model.Cafe;
 import model.Pet;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
+@ExcludeFromJacocoGeneratedReport
 // Represents the pet cafe application's user interface
 public class CafeApp {
+    private static final String JSON_STORE = "./data/cafe.json";
     private Cafe cafe;
     private Scanner input;
+    private JsonWriter jsonWriter; 
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the cafe application
     public CafeApp() {
+        
         cafe = new Cafe();
         input = new Scanner(System.in);
+        jsonWriter = new JsonWriter(JSON_STORE); 
+        jsonReader = new JsonReader(JSON_STORE); 
         runCafe();
     }
 
@@ -25,11 +38,14 @@ public class CafeApp {
         boolean keepGoing = true;
         String command;
 
+        askToLoad();
+
         while (keepGoing) {
             displayMenu();
             command = input.next().toLowerCase();
 
             if (command.equals("q")) {
+                askToSave();
                 keepGoing = false;
             } else {
                 processCommand(command);
@@ -46,11 +62,14 @@ public class CafeApp {
         System.out.println("i: Interact with a pet");
         System.out.println("r: Remove a pet");
         System.out.println("s: View cafe statistics");
+        System.out.println("sa: Save cafe to file"); 
+        System.out.println("lo: Load cafe from file");
         System.out.println("q: Quit");
     }
 
     // MODIFIES: this
     // EFFECTS: processes the user's command
+    @SuppressWarnings("methodlength")
     private void processCommand(String command) {
         switch (command) {
             case "a":
@@ -67,6 +86,12 @@ public class CafeApp {
                 break;
             case "s":
                 doShowStats();
+                break;
+            case "sa": 
+                saveCafe();
+                break;
+            case "lo": 
+                loadCafe();
                 break;
             default:
                 System.out.println("Hmm, it seems that's not a valid command.");
@@ -203,6 +228,49 @@ public class CafeApp {
             input.nextLine();
             System.out.println("Hmm, it seems that wasn't a number.");
             return null;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Ask user if last data should be loaded
+    private void askToLoad() {
+        System.out.println("Hello, do you wanna load previous Cafe? (y/n)");
+        String command = input.next();
+        if (command.equals("y")) {
+            loadCafe();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Ask user to save current Cafe 
+    private void askToSave() {
+        System.out.println("Hello, do you want to save your Cafe? (y/n)");
+        String command = input.next();
+        if (command.equals("y")) {
+            saveCafe();
+        }
+    }
+
+    // EFFECTS: Save stats of Cafe to Json file
+    private void saveCafe() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(cafe);
+            jsonWriter.close();
+            System.out.println("Saved succefully to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot be saved to " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Load Cafe's stats from Json file
+    private void loadCafe() {
+        try {
+            cafe = jsonReader.read();
+            System.out.println("Loaded succefully from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Cannot load from: " + JSON_STORE);
         }
     }
 }

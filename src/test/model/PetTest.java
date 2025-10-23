@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
+@ExcludeFromJacocoGeneratedReport
 public class PetTest {
 
     private Pet testPet;
@@ -81,9 +83,64 @@ public class PetTest {
     }
 
     @Test
+    void testDecreaseHealthWhenSick() {
+    
+        testPet.decreaseHealth(20);
+        testPet.decreaseHealth(20);
+        testPet.decreaseHealth(20);
+        testPet.decreaseHealth(20);
+
+        assertEquals(Pet.MIN_STAT, testPet.getHealth());
+    }
+
+    @Test
     void testEatPill() {
-        testPet.decreaseHealth(40); // Health is 10
+        testPet.decreaseHealth(40); 
         testPet.eatPill();
         assertEquals(Pet.MAX_STAT, testPet.getHealth());
+    }
+
+    @Test
+    void testSetHunger() {
+        assertEquals(Pet.INITIAL_STAT, testPet.getHunger());
+        
+        testPet.setHunger(80);
+        assertEquals(80, testPet.getHunger());
+
+        testPet.setHunger(10);
+        assertEquals(10, testPet.getHunger());
+    }
+
+    @Test
+    void testSetStamina() {
+        assertEquals(Pet.INITIAL_STAT, testPet.getStamina());
+
+        testPet.setStamina(100);
+        assertEquals(100, testPet.getStamina());
+
+        testPet.setStamina(0);
+        assertEquals(0, testPet.getStamina());
+    }
+
+    @Test
+    void testSetHappiness() {
+        assertEquals(Pet.INITIAL_STAT, testPet.getHappiness());
+
+        testPet.setHappiness(95);
+        assertEquals(95, testPet.getHappiness());
+
+        testPet.setHappiness(5);
+        assertEquals(5, testPet.getHappiness());
+    }
+
+    @Test
+    void testSetHealth() {
+        assertEquals(Pet.INITIAL_STAT, testPet.getHealth());
+
+        testPet.setHealth(20);
+        assertEquals(20, testPet.getHealth());
+
+        testPet.setHealth(75);
+        assertEquals(75, testPet.getHealth());
     }
 }

@@ -7,7 +7,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
+@ExcludeFromJacocoGeneratedReport
 class CafeTest {
     private Cafe testCafe;
     private Pet pet1;
@@ -72,5 +74,35 @@ class CafeTest {
         List<Pet> lowHealthPets = testCafe.getPetsWithLowHealth();
         assertEquals(1, lowHealthPets.size());
         assertTrue(lowHealthPets.contains(pet1));
+    }
+
+    @Test
+    void testSetAdoptedCount() {
+        assertEquals(0, testCafe.getAdoptedCount());
+        
+        testCafe.setAdoptedCount(10);
+        assertEquals(10, testCafe.getAdoptedCount());
+        
+        testCafe.setAdoptedCount(0);
+        assertEquals(0, testCafe.getAdoptedCount());
+    }
+
+    @Test
+    void testForceAddPet() {
+        assertEquals(0, testCafe.getPetCount());
+        assertEquals(0, testCafe.getAdoptedCount());
+
+        testCafe.forceAddPet(pet1);
+
+        assertEquals(1, testCafe.getPetCount());
+        assertTrue(testCafe.getPets().contains(pet1));
+        
+        assertEquals(0, testCafe.getAdoptedCount());
+
+        testCafe.forceAddPet(pet2);
+        
+        assertEquals(2, testCafe.getPetCount());
+        assertTrue(testCafe.getPets().contains(pet2));
+        assertEquals(0, testCafe.getAdoptedCount());
     }
 }

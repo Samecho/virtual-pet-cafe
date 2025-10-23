@@ -1,0 +1,21 @@
+{
+    "adoptedCount": 3,
+    "pets": [
+        {
+            "name": "Momo",
+            "specie": "Dog",
+            "hunger": 80,
+            "stamina": 75,
+            "happiness": 90,
+            "health": 95
+        },
+        {
+            "name": "Billy",
+            "specie": "Dog",
+            "hunger": 50,
+            "stamina": 50,
+            "happiness": 50,
+            "health": 50
+        }
+    ]
+}

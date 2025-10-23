@@ -1,0 +1,11 @@
+{
+    "pets": [{
+        "specie": "Cat",
+        "happiness": 50,
+        "stamina": 50,
+        "name": "Momo",
+        "health": 50,
+        "hunger": 50
+    }],
+    "adoptedCount": 2
+}

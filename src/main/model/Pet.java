@@ -8,7 +8,7 @@ import persistence.Writable;
 // Pet has name, specie, and stats that change over time,
 // These stats include stamina, happiness, hunger, health
 // and a sick status
-public class Pet implements Writable{
+public class Pet implements Writable {
     public static final int MAX_STAT = 100;
     public static final int MIN_STAT = 0;
     public static final int INITIAL_STAT = 50;
@@ -41,7 +41,6 @@ public class Pet implements Writable{
     }
 
 
-    // The following are getters
     public String getName() {
         return this.name; 
     }
@@ -66,7 +65,6 @@ public class Pet implements Writable{
         return this.health; 
     }
 
-    // The following are the modifies this
 
     // MODIFIES: this
     // EFFECTS: Increase the happiness of pet by FOOD_HAPPINESS
@@ -111,9 +109,41 @@ public class Pet implements Writable{
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets pet's hunger to the given value
+    public void setHunger(int hunger) { 
+        this.hunger = hunger; 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets pet's stamina to the given value
+    public void setStamina(int stamina) { 
+        this.stamina = stamina; 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets pet's happiness to the given value
+    public void setHappiness(int happiness) { 
+        this.happiness = happiness; 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: sets pet's health to the given value
+    public void setHealth(int health) { 
+        this.health = health; 
+    }
+
+
     // EFFECTS: returns this pet as a JSON object
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("specie", specie);
+        json.put("hunger", hunger);
+        json.put("stamina", stamina);
+        json.put("happiness", happiness);
+        json.put("health", health);
+        return json;
     }
 }

@@ -3,12 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.Writable;
 
 // Represents the Pet Cafe, where the owner adopts pets to live in the cafe
-public class Cafe implements Writable{
+public class Cafe implements Writable {
     public static final int LOW_HEALTH_THRESHOLD = 20;
     private List<Pet> pets;
     private int adoptedCount; 
@@ -60,9 +61,36 @@ public class Cafe implements Writable{
         return lowHealthPets;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the adopted count; this is only for use by the JsonReader
+    public void setAdoptedCount(int count) {
+        this.adoptedCount = count;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a pet to the cafe without incrementing the adopted count;
+    //          this is only for use by the JsonReader
+    public void forceAddPet(Pet pet) {
+        pets.add(pet);
+    }
+
     // EFFECTS: returns this pet cafe as a JSON object
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject json = new JSONObject();
+        json.put("adoptedCount", adoptedCount);
+        json.put("pets", petsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns pets in this cafe as a JSON array
+    private JSONArray petsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Pet p : pets) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
     }
 }
